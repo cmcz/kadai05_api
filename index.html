@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天気ソング🎵</title>
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
+    <video id="background-video" class="absolute top-0 left-0 w-full h-full object-cover" autoplay loop muted>
+        <source id="video-source" type="video/mp4">
+    </video>
+
+    <!-- Pop-Up Map -->
+    <div id="map-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+
+        <!-- Cancel Button -->
+        <button id="close-modal-btn" class="absolute top-10 right-3 m-3 rounded-md">
+            <svg width="200px" height="32px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#fcfcfc" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line x1="8.06" y1="8.06" x2="55.41" y2="55.94"></line><line x1="55.94" y1="8.06" x2="8.59" y2="55.94"></line></g></svg>
+        </button>
+        
+        <!-- Map -->
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+    
+
+    <!-- Main Layout -->
+    <div class="relative z-10 w-4/5 max-w-5xl bg-neutral-900 bg-opacity-80 rounded-lg shadow-lg p-8">
+        
+        <!-- Weather - Current Info -->
+        <h1 class="text-4xl font-bold text-center mb-4" id="curr-weather">Current Weather</h1>
+        <h2 class="text-2xl font-semibold text-center mb-4" id="curr-city">Current City</h2>
+        <h2 class="text-xl font-semibold text-center mb-8" id="curr-date">Current Date</h2>
+
+        <!-- Weather - Forecast Info -->
+        <div id="forecast" class="flex justify-between space-x-4 mb-8"></div>
+
+        <!-- Spotify Player -->
+        <div id="spotify-player" class="flex justify-center"></div>
+    </div>
+</body>
+
+<footer>
+    <!-- Map Button -->
+    <div class="flex items-center flex-col justify-between mt-8"> 
+        <button id="show-modal-btn" class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            <svg width="300px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#232423"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M21 7.16229C21 6.11871 21 5.59692 20.7169 5.20409C20.4337 4.81126 19.9387 4.64625 18.9487 4.31624L17.7839 3.92799C16.4168 3.47229 15.7333 3.24444 15.0451 3.3366C14.3569 3.42876 13.7574 3.82843 12.5583 4.62778L11.176 5.54937C10.2399 6.1734 9.77191 6.48541 9.24685 6.60952C9.05401 6.65511 8.85714 6.68147 8.6591 6.68823C8.11989 6.70665 7.58626 6.52877 6.51901 6.17302C5.12109 5.70705 4.42213 5.47406 3.89029 5.71066C3.70147 5.79466 3.53204 5.91678 3.39264 6.06935C3 6.49907 3 7.23584 3 8.70938V12.7736M21 11V15.2907C21 16.7642 21 17.501 20.6074 17.9307C20.468 18.0833 20.2985 18.2054 20.1097 18.2894C19.5779 18.526 18.8789 18.293 17.481 17.827C16.4137 17.4713 15.8801 17.2934 15.3409 17.3118C15.1429 17.3186 14.946 17.3449 14.7532 17.3905C14.2281 17.5146 13.7601 17.8266 12.824 18.4507L11.4417 19.3722C10.2426 20.1716 9.64311 20.5713 8.95493 20.6634C8.26674 20.7556 7.58319 20.5277 6.21609 20.072L5.05132 19.6838C4.06129 19.3538 3.56627 19.1888 3.28314 18.7959C3.01507 18.424 3.0008 17.9365 3.00004 17" stroke="#232423" stroke-width="1.5" stroke-linecap="round"></path> <path d="M15 3.5V7M15 17V11" stroke="#232423" stroke-width="1.5" stroke-linecap="round"></path> <path d="M9 20.5V17M9 7V13" stroke="#232423" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+        </button>
+    </div>
+        
+    <!-- Credits -->
+    <div class="text-center text-xs mt-8">
+        API from  
+        <a href="https://www.pexels.com" class="hover:text-gray-700 transition-colors duration-300">Pexels</a>, 
+        <a href="https://open.spotify.com/" class="hover:text-gray-700 transition-colors duration-300">Spotify</a>, 
+        <a href="https://openweathermap.org/" class="hover:text-gray-700 transition-colors duration-300">Open Weather Map</a>, 
+        <a href="https://openstreetmap.org/" class="hover:text-gray-700 transition-colors duration-300">Open Street Map</a>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="js/main.js"></script>
+
+</html>
+

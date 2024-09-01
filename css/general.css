@@ -1,0 +1,59 @@
+/* Pop Up */
+#map-modal {
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#map-container {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px; 
+    margin: 80px; 
+    width: 600px; 
+    height: 600px; 
+    max-width: 70%; 
+    max-height: 70%; 
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+/* Background */
+#background-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    animation: fadeEffect 9s infinite;
+}
+
+@keyframes fadeEffect {
+    0% {
+        opacity: 0.1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
+
+
+
+
+
