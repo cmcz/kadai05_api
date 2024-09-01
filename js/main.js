@@ -1,9 +1,7 @@
-$(document).ready(function () {
-    const openweather_key = "${{ secrets.OPENWEATHER_KEY }}";  
-    const pexel_key = "${{ secrets.PEXEL_KEY }}";  
-    const spotify_ClientId = "${{ secrets.SPOTIFY_CLIENTID }}";
-    const spotify_ClientSecret = "${{ secrets.SPOTIFY_CLIENTSECRET }}";
+import { openweather_key, pexel_key, spotify_ClientId, spotify_ClientSecret } from './config.js';
 
+$(document).ready(function () {
+    
     const iconUrl = "http://openweathermap.org/img/wn/";
 
     var lat = "35.713456";  
